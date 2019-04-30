@@ -54,11 +54,16 @@ const WatsonDiscoveryService = new Promise((resolve, reject) => {
 
 const WatsonAssistantService = new Promise((resolve, reject) => {
   // listEnvironments as sanity check to ensure creds are valid
-  assistant.listWorkspaces({})
-    .then(() => {
+  assistant.
+    createSession({
+      assistant_id: assistant.assistantId
+    })
+    .then(res => {
+      const assistantId = assistant.assistantId;
+      console.log('assistant.assistantId 2: ' + assistantId);
       // environment and collection ids are always the same for Watson News
-      const workspaceId = assistant.workspaceId;
-      messageBuilder.setWorkspaceId(workspaceId);
+      messageBuilder.setAssistantId(assistantId);
+      messageBuilder.setSessionId(res.session_id);
     })
     .catch(error => {
       // eslint-disable-next-line no-console
@@ -152,7 +157,10 @@ function createServer() {
     // build message
     var params = {};
     params.context = req.body.context;
-    params.input = {'text': req.body.message};
+    params.input = {
+      message_type: 'text',
+      text: req.body.message
+    };
     var messagesParams = messageBuilder.message(params);
     
     // Send the input to the conversation service

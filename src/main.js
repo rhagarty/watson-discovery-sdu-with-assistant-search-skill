@@ -170,43 +170,86 @@ class Main extends React.Component {
       }
     })
       .then(json => {
-        // console.log('+++ ASSISTANT RESULTS +++');
-        // const util = require('util');
-        // console.log(util.inspect(json, false, null));
+        console.log('+++ ASSISTANT RESULTS +++');
+        const util = require('util');
+        console.log(util.inspect(json, false, null));
 
         // console.log('json.output.text[0]: ' + json.output.text[0]);
         this.printContext(json.context);
-        console.log('OUTPUT: ' + json.output.text[0]);
+        //console.log('OUTPUT: ' + json.output);//.text[0]);
 
         // returned text from assistant will either put text string 
         // or Discovery data returned in the context
-        if (json.context.webhook_result_1) {
-          console.log('GOT DISCO OUTPUT!');
-          var passages = json.context.webhook_result_1.response.result.passages;
-          passages = utils.formatData(passages);
+        // if (json.context.webhook_result_1) {
+        //   console.log('GOT DISCO OUTPUT!');
+        //   var passages = json.context.webhook_result_1.response.result.passages;
+        //   passages = utils.formatData(passages);
           
-          console.log('+++ DISCO RESULTS +++');
-          const util = require('util');
-          console.log(util.inspect(passages, false, null));
-          console.log('numMatches: ' + passages.results.length);
+        //   console.log('+++ DISCO RESULTS +++');
+        //   const util = require('util');
+        //   console.log(util.inspect(passages, false, null));
+        //   console.log('numMatches: ' + passages.results.length);
   
-          // add to message list
-          passages.results.forEach(function(result) {
-            conversation.push(
-              { id: conversation.length,
-                text: result.text,
-                owner: 'watson'});
-          });
+        //   // add to message list
+        //   passages.results.forEach(function(result) {
+        //     conversation.push(
+        //       { id: conversation.length,
+        //         text: result.text,
+        //         owner: 'watson'});
+        //   });
   
-        } else {
-          // add to message list
+        // } else {
+        //   // add to message list
+        //   var text = 'No Message Recieved';
+        //   if (json.output.text[0]) {
+        //     text = json.output.text[0];
+        //   }
+        //   conversation.push(
+        //     { id: conversation.length,
+        //       text: text,
+        //       owner: 'watson'
+        //     });
+        // }
+
+        // add to message list
+        var response = json.output.generic[0];
+        if (response.response_type === 'text') {
           conversation.push(
             { id: conversation.length,
-              text: json.output.text[0],
+              text: response.text,
               owner: 'watson'
             });
-        }
+        } else if (response.response_type == 'search') {
+          // display header response and up to 3 search results
+          conversation.push({
+            id: conversation.length,
+            text: response.header,
+            owner: 'watson'
+          });
+          
+          var maxResponses = 3;
+          var numResponses = 0;
+          var idx = 0;
+          var done = false;
+          while (!done) {
+            if (response.results[idx]) {
+              conversation.push({
+                id: conversation.length,
+                text: response.results[idx].body,
+                owner: 'watson'
+              });
+              numResponses = numResponses + 1;
+            } else {
+              done = true;
+            }
 
+            if (numResponses == maxResponses) {
+              done = true;
+            }
+            idx = idx + 1;
+          }
+        }
+        
         this.setState({
           conversation: conversation,
           context: json.context,
@@ -227,14 +270,15 @@ class Main extends React.Component {
 
   /* Log Watson Assistant context values, so we can follow along with its logic. */
   printContext(context) {
-    if (context.system) {
-      if (context.system.dialog_stack) {
+    console.log('Dialog Stack:');
+    console.log(util.inspect(context, false, null));
+    // if (context.system) {
+      // if (context.system.dialog_stack) {
         // console.log(
         //   '     dialog_stack: [' + util.inspect(context.system.dialog_stack, false, null) + ']');
-        console.log('Dialog Stack:');
-        console.log(util.inspect(context, false, null));
-      }
-    }
+        // console.log('Dialog Stack:');
+        // console.log(util.inspect(context, false, null));
+      // }    }
   }
   
   handleOnChange(event) {
