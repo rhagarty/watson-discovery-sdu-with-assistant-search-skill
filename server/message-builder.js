@@ -17,12 +17,19 @@
 const util = require('util');
 
 module.exports = {
-  setWorkspaceId(workspaceId) {
-    this.workspace_id = workspaceId;
+  setAssistantId(assistantId) {
+    this.assistant_id = assistantId;
+    console.log('assistantId 3: ' + assistantId);
+    console.log('this.assistant_id 3: ' + this.assistant_id);
+  },
+  setSessionId(sessionId) {
+    this.session_id = sessionId;
+    console.log('this.session_id 3: ' + this.session_id);
   },
   message(messageOpts) {
     const params = Object.assign({
-      workspace_id: this.workspace_id
+      assistant_id: this.assistant_id,
+      session_id: this.session_id
     }, messageOpts);
 
     console.log('Assistant Message Params: ');

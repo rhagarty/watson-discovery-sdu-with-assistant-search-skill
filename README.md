@@ -1,10 +1,17 @@
-# composite-disco-sdu-assistant-chatbot-with-webhooks
+# composite-disco-sdu-assistant-chatbot-with-search-skill
 
 * Use Assistant dialog for better chatbot experience
 * Use "customer-care" skill provided by Assistant
-* Use webhooks to search Disco if question is "anything-else" and reply with disco passages
+* Use search skill to search Disco if question is "anything-else" and reply with disco passages
 
-# What is a webhook?
+# What is a search skill?
+
+PLUS or PREMIUM PLAN REQUIRED (CURRENTLY BETA)
+
+You can have a search skill by itself, where all user input is passed to discovery.
+
+If you have both, only if the dialog skill reaches "anything_else" node will it search skill be triggered.
+
 
 Define a webhook that sends a POST request callout to an external application to perform a programmatic function. You can then invoke the webhook from one or more dialog nodes.
 
@@ -25,6 +32,20 @@ A webhook is a mechanism that allows you to call out to an external program base
 * Format Disco results better in chatbot 
 
 # Steps:
+
+## Create Search Skill
+
+![](doc/source/images/select-search-skill.png)
+
+![](doc/source/images/create-search-skill.png)
+
+![](doc/source/images/assign-search-skill-to-collection.png)
+
+![](doc/source/images/configure-search-skill.png)
+
+![](doc/source/images/assign-search-skill-to-node.png)
+
+![](doc/source/images/create-assistant-to-link-skills.png)
 
 ## Create action
 

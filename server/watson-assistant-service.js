@@ -15,17 +15,18 @@
  */
 
 const Promise = require('bluebird');
-const AssistantV1 = require('ibm-watson/assistant/v1');
+const AssistantV2 = require('ibm-watson/assistant/v2');
 
 var assistant;
 const version = '2019-02-28';
-assistant = new AssistantV1({
+assistant = new AssistantV2({
   version: version
 });
 
-assistant.workspaceId = process.env.ASSISTANT_WORKSPACE_ID;
+assistant.assistantId = process.env.ASSISTANT_ID;
+console.log('assistant.assistantId: ' + assistant.assistantId);
 
-assistant.listWorkspaces = Promise.promisify(assistant.listWorkspaces);
+assistant.createSession = Promise.promisify(assistant.createSession);
 assistant.message = Promise.promisify(assistant.message);
 
 module.exports = assistant;
