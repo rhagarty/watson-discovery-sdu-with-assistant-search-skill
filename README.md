@@ -28,7 +28,7 @@ If you have both, only if the dialog skill reaches "anything_else" node will it 
 
 # Steps:
 
-> Assumes completion of discovery setup described in https://github.com/rhagarty/watson-discovery-sdu-ui.
+> Assumes completion of Watson Discovery setup described in https://github.com/rhagarty/watson-discovery-sdu-ui and Watson Assistant setup described in https://github.com/rhagarty/watson-discovery-sdu-with-assistant-cloud-functions.
 
 ## Create Search Skill
 
@@ -48,15 +48,15 @@ Configure how the search will respond:
 
 ![](doc/source/images/configure-search-skill.png)
 
-Create new dialog entity named `@product` to handle our new question:
+## Invoke the Search Skill from dialog node
 
-![](doc/source/images/create-entity.png)
-
-Call out to the search skill from a dialog node when `@product` entity is detected:
+Modify the "Ask about product" dialog node to call out to the search skill:
 
 ![](doc/source/images/assign-search-skill-to-node.png)
 
-Create Assistant instance to combine dialog and search skills:
+## Create Assistant instance to combine dialog and search skills:
+
+In order to use both skills, you need to create an `Assistant` object that integrates them.
 
 ![](doc/source/images/create-assistant-to-link-skills.png)
 
