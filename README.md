@@ -25,6 +25,8 @@ If you have both, only if the dialog skill reaches "anything_else" node will it 
 * Create better use case for invoking search skill from Assistant dialog node
 * Format Disco results better in chatbot
 * Modify search type in Discovery to use passages
+* Integrate into Slack
+* Push app to cloud
 
 # Steps:
 
@@ -74,13 +76,59 @@ Then use the chatbot to test accessing the search skill:
 
 ![](doc/source/images/preview-example.png)
 
+## Configure credentials
+
+The credentials for your `Assistant` instance by clicking the options dropdown button located on the right side of the instance listed in the `Assistant` panel. Click the `Settings` option.
+
+![](doc/source/images/assistant-list.png)
+
+Click `API Details` to show all credentials:
+
+![](doc/source/images/assistant-creds.png)
+
+Use these values to populate your `.env` file in the next step.
+
+```bash
+cp env.sample .env
+```
+
+Edit the `.env` file with the necessary settings.
+
+#### `env.sample:`
+
+```bash
+# Copy this file to .env and replace the credentials with
+# your own before starting the app.
+
+ASSISTANT_IAM_APIKEY=<add_assistant_iam_apikey>
+ASSISTANT_ID=<add_assistant_id>
+
+# Run locally on a non-default port (default is 3000)
+# PORT=3000
+```
+
+## Run locally
+
+```bash
+npm install
+npm start
+```
+
+Access the UI by pointing your browser at `localhost:3000`.
+
+Sample questions:
+
+* **how do I set a schedule?**
+* **how do I set the temperature?**
+* **how do I set the time?**
+
 ## Access to results in application
 
 Results will be returned in Assistant response object.
 
 * If the result is from the normal dialog conversation:
 
-```json
+```
 { output:
    { generic:
       [ { response_type: 'text',
@@ -95,7 +143,7 @@ Results will be returned in Assistant response object.
 
 If the result is from the search skill:
 
-```json
+```
 { output:
    { generic:
       [ { response_type: 'search',
