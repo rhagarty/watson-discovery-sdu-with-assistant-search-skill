@@ -28,9 +28,12 @@ If you have both, only if the dialog skill reaches "anything_else" node will it 
 * Integrate into Slack
 * Push app to cloud
 
-# Steps:
+# Prerequisites
 
-> Assumes completion of Watson Discovery setup described in https://github.com/rhagarty/watson-discovery-sdu-ui and Watson Assistant setup described in https://github.com/rhagarty/watson-discovery-sdu-with-assistant-cloud-functions.
+* Create Watson Discovery collection as described in https://github.com/rhagarty/watson-discovery-sdu-ui
+* Create Watson Assistant dialog skill as described in  https://github.com/rhagarty/watson-discovery-sdu-with-assistant-cloud-functions
+
+# Steps:
 
 ## Create Search Skill
 
